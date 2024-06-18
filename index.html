@@ -1,1 +1,169 @@
-hello world!
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Point-SAM: Promptable 3D Segmentation Model for Point Clouds</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.24/dist/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.24/dist/js/bulma-carousel.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/latex.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1"><b>Point-SAM</b>: Promptable 3D Segmentation Model for Point Clouds</h1>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                                <a href="https://github.com/zyc00">Yuchen Zhou</a><sup>* 1</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://cseweb.ucsd.edu/~jigu/">Jiayuan Gu</a><sup>* 1</sup>,
+                            </span>
+                            <span class="author-block">
+                                Tung Yen Chiang<sup>1</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://www.fbxiang.com">Fanbo Xiang</a><sup>1</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://cseweb.ucsd.edu/~haosu/">Hao Su</a><sup>1,2</sup>,
+                            </span>
+                        </div>
+                        <div class=""is-size-6 publication-authors">
+                            <span class="author-block">
+                                UC San Diego<sup>1</sup>,
+                            </span>
+                            <span class="author-block">
+                                Hillbot<sup>2</sup>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                            <span class="link-block">
+                                <a class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="ai ai-arxiv"></i>
+                                    </span>
+                                    <span>arXiv</span>
+                                </a>
+                            </span>
+                            <span class="link-block">
+                                <a href="https://github.com/zyc00/Point-SAM" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="fa fa-github"></i>
+                                    </span>
+                                    <span>GitHub</span>
+                                </a>
+                            </span>
+                            <span class="link-block">
+                                <a href="https://huggingface.co/spaces/yuchen0187/Point-SAM" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="fa-solid fa-cog fa-spin fa-spin-reverse"></i>
+                                    </span>
+                                    <span>Demo</span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <b>Introduction: </b>Due to advancements in robotics and graphics, there is a growing demand for 3D data with detailed part-level annotations. However, manual annotation of 3D point clouds and meshes is exceedingly laborious and time-consuming. To address this challenge, we introduce <b>Point-SAM</b>, a transformer-based 3D segmentation model designed to incorporate interactive guidance through point prompts. <b>Point-SAM</b> takes both a point cloud and user-provided prompts as inputs, generating precise segmentation masks as outputs. The following videos demonstrate how <b>Point-SAM</b> operates on out-of-distribution meshes.
+                </div>
+                <div class="carousel results-carousel" data-autoplay-speed="10000">
+                    <img src="./static/img/indoor-ezgif.com-video-to-gif-converter.gif" align="left" width="48%" />
+                    <img src="./static/img/outdoor-ezgif.com-video-to-gif-converter.gif" align="right" width="48%" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-widescreen">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            The development of 2D foundation models for image segmentation has been significantly advanced by the Segment Anything Model (SAM). However, achieving similar success in 3D models remains a challenge due to issues such as non-unified data formats, lightweight models, and the scarcity of labeled data with diverse masks. To this end, we propose a 3D promptable segmentation model <b>Point-SAM</b> focusing on point clouds. Our approach utilizes a transformer-based method, extending SAM to the 3D domain. We leverage part-level and object-level annotations and introduce a data engine to generate pseudo labels from SAM, thereby distilling 2D knowledge into our 3D model. Our model outperforms state-of-the-art models on several indoor and outdoor benchmarks and demonstrates a variety of applications, such as 3D annotation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-widescreen">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                    <h2 class="title is-3">Overview</h2>
+                    <img src="./static/img/PointSAM-Teaser.001.jpeg" width="100%" />
+                    <div class="content has-text-justified">
+                        <p>
+                            <b>Point-SAM Model</b> The point cloud and prompts are feed into the model, and the model generates the segmentation mask. 
+                            The point cloud is first grouped by FPS and KNN, then tokenized by a small PointNet. Then the tokens are feed into a ViT model.
+                            The prompts are encoded by sin-cos positional encoding and then fused with the ViT's output. Finally, the fused output is decoded into the segmentation mask.
+                        </p>
+                        <p>
+                            <b>Pseudo Label Engine</b> Initially, a relatively weak Point-SAM is trained on a mixture of existing datasets. Using both pre-trained Point-SAM and SAM, we generate pseudo labels by rendering RGB-D images of each mesh from six fixed camera positions and fusing these into a colored point cloud. For each 2D proposal, a corresponding 3D proposal is identified and refined by lifting a randomly sampled 2D prompt to a 3D prompt, prompting Point-SAM to predict a 3D mask on the fused point cloud, with the process repeated and modified at other views.
+                            Details and results are provided in the figure below.
+                        </p>
+                        <p>
+                            <b>Applications</b> Our model has a variety of applications, such as 3D annotation, where users can provide prompts to guide the model to generate precise segmentation masks. It can be used for diverse data sources, such as indoor and outdoor scenes as well as synthetic data. Our model can also be used for zero-shot instance proposal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-widescreen">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                    <h2 class="title is-3">Pseudo Label Generation</h2>
+                    <img src="./static/img/PointSAM-Teaser.003.jpeg" width="100%" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-widescreen">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                    <h2 class="title is-3">Prompt Segmentation Demos</h2>
+                    <video width="100%" autoplay>
+                        <source src="./static/img/video_1.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
