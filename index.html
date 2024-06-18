@@ -146,9 +146,11 @@
                 <div class="column is-four-fifths has-text-centered">
                     <h2 class="title is-3">Pseudo Label Generation</h2>
                     <img src="./static/img/PointSAM-Teaser.003.jpeg" width="100%" />
-                    <p>
-                        Pseudo label generation and refinement process. 
-                    </p>
+                    <div class="content has-text-justified">
+                        <p>
+                            <b>Pseudo label generation and refinement process</b> A weak Point-SAM is trained on a mixture of existing datasets. We then use both pre-trained Point-SAM and SAM to generate pseudo labels. For each mesh, we render RGB-D images from six fixed camera positions and fuse them into a colored point cloud. SAM generates diverse 2D proposals for each view, and for each 2D proposal, we aim to find a corresponding 3D proposal. Starting from the view of the 2D proposal, a randomly sampled 2D prompt is lifted to a 3D prompt, prompting Point-SAM to predict a 3D mask on the fused point cloud. The next 2D prompt is sampled from the error region between the 2D proposal and the projection of the 3D proposal at this view. New 3D prompts and previous 3D proposal masks update the 3D proposal. This process repeats until the IoU between the 2D and 3D proposals exceeds a threshold, ensuring 3D-consistent segmentation regularized by Point-SAM while retaining SAM's diversity. We repeat this process with modifications at other views to refine the 3D proposal further. If the IoU is below a threshold, the 3D proposal is discarded, and the previous 3D proposal mask is used to prompt Point-SAM at each iteration, refining the 3D masks by incorporating 2D priors from SAM through space carving.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,21 +161,59 @@
             <div class="columns is-centered">
                 <div class="column is-four-fifths has-text-centered">
                     <h2 class="title is-3">Prompt Segmentation Demos</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            We show videos for prompt segmentation. Our demo can be found <a href="https://huggingface.co/spaces/yuchen0187/Point-SAM">here</a>.
+                            Those objects are out-of-distribution meshes, the first three are downloaded from Objaverse, and the last one is from Polycam which is also 
+                            an out-door scene with complex geomotry. You can find the example geomotries in the annotation deme <a href="https://github.com/zyc00/point-sam-demo">GitHub repo</a>.
+                        </p>
+                    </div>
+                    <p>
+                        <b>Video 1: Rhino from Objaverse</b>
+                    </p>
                     <video width="100%" autoplay muted style="margin-bottom: 5%;">
                         <source src="./static/img/video_1.mp4#t=3,500" type="video/mp4" />
                     </video>
 
+                    <p>
+                        <b>Video 2: Transformer from Objaverse</b>
+                    </p>
                     <video width="100%" autoplay muted style="margin-bottom: 5%;">
                         <source src="./static/img/video_2.mp4#t=3,500" type="video/mp4" />
                     </video>
 
+                    <p>
+                        <b>Video 3: Headphone from Objaverse</b>
+                    </p>
                     <video width="100%" autoplay muted style="margin-bottom: 5%;">
                         <source src="./static/img/video_3.mp4#t=3,500" type="video/mp4" />
                     </video>
 
+                    <p>
+                        <b>Video 4: Castle from Polycam</b>
+                    </p>
                     <video width="100%" autoplay muted style="margin-bottom: 5%;">
                         <source src="./static/img/video_4.mp4#t=13,500" type="video/mp4" />
                     </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-widescreen">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths has-text-centered">
+                    <h2 class="title is-3">Quantitative Results</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            <b>Baseline</b> We compare Point-SAM with a multi-view extension of SAM, named MV-SAM, and a 3D interactive segmentation method, AGILE3D. Inspired by previous works, we introduce MV-SAM for zero-shot point-prompted segmentation as a strong baseline by rendering multi-view RGB-D images from each mesh. SAM is prompted at each view with simulated clicks from the error region center between SAM’s prediction and the 2D ground truth mask, with predictions lifted back to a sparse point cloud and merged into a single mask. For both MV-SAM and our method, the most confident prediction is selected if there are multiple outputs. AGILE3D uses a sparse convolutional U-Net, is trained on real-world scans of ScanNet40, and requires input scale adjustment for CAD models to ensure consistent performance.
+                        </p>
+                        <p>
+                            <b>Results</b> Point-SAM shows superior zero-shot transferability and effectively handles data with different point counts and sources. It significantly outperforms MV-SAM, especially with few point prompts, demonstrating greater prompt efficiency. SAM struggles with multi-view consistency without extra fine-tuning, particularly with limited prompts. Point-SAM also surpasses AGILE3D across all datasets, notably in out-of-distribution scenarios like PartNet-Mobility and KITTI360, highlighting its strong zero-shot transferability. Figure 4 illustrates the qualitative comparison, showing Point-SAM's superior quality with a single prompt and significantly faster convergence compared to AGILE3D and MV-SAM.
+                        </p>
+                    </div>
+                    <img src="./static/img/poster.002.jpeg" width="100%" />
                 </div>
             </div>
         </div>
